@@ -13,7 +13,7 @@ public class Java_16 {
 
         int[] candy = new int[ratings.length];
         Arrays.fill(candy,1);
-        for(int i =1;i<ratings.length-1;i++){       //从左到右满足高的比低的多
+        for(int i =1;i<ratings.length;i++){       //从左到右满足高的比低的多
             if(ratings[i]>ratings[i-1]){
                 candy[i]  = candy[i-1] +1;
             }
@@ -34,7 +34,7 @@ public class Java_16 {
 
     public static void main(String[] args) {
         Java_16 a = new Java_16();
-        int[] b = {2,2};
+        int[] b = {1,2};
         a.candy(b);
     }
 
