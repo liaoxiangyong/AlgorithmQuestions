@@ -64,7 +64,7 @@ public class KMP {
             }else if(i+pLength<sLength){
                 if(pattern.contains(source.charAt(i+pLength)+"")){   //判断重合点后面一个点,若有相等的，则移动
                     int index = pattern.lastIndexOf(source.charAt(i+pLength));
-                    i += pLength - index;           //向右移动pattern的最后点到最后一个判断点的距离+1
+                    i += pLength - index;           //向右移动pattern的最后点到最后一个判断点的距离+1，将pattern字符串最后一个字符和 判断点对齐
                     loc  = i;
                     j=0;
                 }else{      //不包含直接跳到最后一个的下一个点
