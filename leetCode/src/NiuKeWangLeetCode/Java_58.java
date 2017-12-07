@@ -20,7 +20,7 @@ public class Java_58 {
     public void countDup(ArrayList<ArrayList<Integer>> result,ArrayList<Integer> arrayList,int[] num,int start){
         result.add(new ArrayList<>(arrayList));
         for(int i=start;i<num.length;i++){
-            if(i>0 && num[i] == num[i-1]) continue;
+            if(i>start && num[i] == num[i-1]) continue;
             arrayList.add(num[i]);
             countDup(result, arrayList, num, i+1);
             arrayList.remove(arrayList.size()-1);
