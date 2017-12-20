@@ -8,14 +8,14 @@ import java.util.List;
  */
 public class Java_72 {
 
-    public List<List<Integer>> combine(int n, int k) {      //给出整数k和n，1-n中的k个数组成集合，求所有可能的集合
-        List<List<Integer>> res = new ArrayList<>();
-        List<Integer> list = new ArrayList<>();
+    public ArrayList<ArrayList<Integer>> combine(int n, int k) {      //给出整数k和n，1-n中的k个数组成集合，求所有可能的集合
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        ArrayList<Integer> list = new ArrayList<>();
         find(res,list,n,k,1);
         return res;
     }
 
-    private void find(List<List<Integer>> res, List<Integer> list,int n,int k,int start){
+    private void find(ArrayList<ArrayList<Integer>> res, ArrayList<Integer> list,int n,int k,int start){
         if(k==0){
             res.add(new ArrayList<>(list));
             return;
