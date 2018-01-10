@@ -14,8 +14,8 @@ public class Java_89 {
             length++;
         }
         //此时p指向链表最后一个点
-        if(n>length) n=n%length;
-        if(n==length || n==0) return head;
+        n=n%length;
+        if(n==0) return head;
         ListNode rotedNode = null;
         ListNode preRotate = head;
         int k=0;
