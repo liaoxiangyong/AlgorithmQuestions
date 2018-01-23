@@ -22,4 +22,27 @@ public class Java_95 {
         }
         return false;
     }
+
+    public int jump(int[] nums) {
+        if (nums.length <= 1) return 0;
+        int reach = nums[0];       //记录从当前点能达到的最大位置
+        int lastreach = 0;      //记录前面能到达的最大点
+        int step = 0;
+
+        for(int i=1;i<=reach && i<nums.length;i++){
+            if(i > lastreach){
+                step++;
+                lastreach = reach;
+            }
+            reach = Math.max(reach, i+nums[i]);
+        }
+        if(reach < nums.length-1) return 0;
+        return step;
+    }
+
+    public static void main(String[] args) {
+        Java_95 a = new Java_95();
+        int[] nums = {1};
+        a.jump(nums);
+    }
 }
