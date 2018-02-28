@@ -34,7 +34,7 @@ public class KMP {
         int[] next = new int[length];
         next[0] = -1;
         int k=-1;
-        int j=0;
+        int j=0;          //p[k]表示前缀，p[j]表示后缀
         while(j<length - 1){
             if(k == -1 || b.charAt(k)==b.charAt(j)){
                 j++;
@@ -42,7 +42,7 @@ public class KMP {
                 if(b.charAt(j) != b.charAt(k))
                     next[j] = k;
                 else
-                    next[j] = next[k];
+                    next[j] = next[k];      ////因为不能出现p[j] = p[ next[j ]]，所以当出现时需要继续递归，k = next[k] = next[next[k]]
             }else
                 k = next[k];
         }
@@ -81,7 +81,7 @@ public class KMP {
     }
     public static void main(String[] args) {
         KMP kmp = new KMP();
-        System.out.println(kmp.sunday("abababdfdasdfcdsadcd","cdsa"));
+        System.out.println(kmp.KMP("abababdfdasdfcdsadcd","cdsa"));
 //        kmp.getNext("abcabcdba");
     }
 }
