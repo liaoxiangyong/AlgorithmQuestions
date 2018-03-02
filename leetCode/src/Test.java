@@ -49,10 +49,10 @@ public class Test {
 
         int[][] array = {{2,4,6,8},{3,5,7,9},{65,432,3456,23245}};
         int[] adddd = {1};
-        System.out.println(test.minNumberInRotateArray(adddd));
-        int[] a1 = {1,2,3,4,5,6,7};
-        int[] a2 ={3,2,4,1,6,5,7};
-        TreeNode root = test.reConstructBinaryTree(a1,a2);
+//        System.out.println(test.minNumberInRotateArray(adddd));
+//        int[] a1 = {1,2,3,4,5,6,7};
+//        int[] a2 ={3,2,4,1,6,5,7};
+        System.out.println(test.Power(2,-3));
 
 
     }
@@ -553,6 +553,20 @@ public class Test {
             n = n&(n-1);
         }
         return count;
+    }
+
+    public double Power(double base, int exponent) {
+        int n=Math.abs(exponent);
+        if(n == 0) return 0;
+        if(n == 1) return base;
+
+        double res = Power(base,n>>1);
+        res *= res;
+        if((exponent & 1)==1)
+            res *= base;
+        if(exponent<0)
+            return 1/res;
+        return res;
     }
 }
 
