@@ -37,13 +37,121 @@ public class Test {
         char[] cc = {'a','b','c','d'};
         String a = "abcd";
         char[] c = a.toCharArray();
-        System.out.println(cc.equals(c));
+//        System.out.println(cc.equals(c));
+//
+//        System.out.println(a.lastIndexOf("bd"));
+//        int[] arr = {3,4,51,23,4,1,8,9,26};
+//        System.out.println(test.sunday("dasdfa","dasdfaj"));
+//
+//        double d1 = 3.2,d2 = 3.2;
+//        System.out.println("d1==d2:"+ (d1==d2));
 
 
-        int[] arr = {3,4,51,23,4,1,8,9,26};
-        test.findNext("erfadefadsfa");
+        int[][] array = {{2,4,6,8},{3,5,7,9},{65,432,3456,23245}};
+        int[] adddd = {1};
+        System.out.println(test.minNumberInRotateArray(adddd));
+        int[] a1 = {1,2,3,4,5,6,7};
+        int[] a2 ={3,2,4,1,6,5,7};
+        TreeNode root = test.reConstructBinaryTree(a1,a2);
 
 
+    }
+
+    Stack<Integer> stack1 = new Stack<Integer>();
+    Stack<Integer> stack2 = new Stack<Integer>();
+
+    public void push(int node) {
+        stack1.push(node);
+    }
+
+    public int pop() {
+        int size = stack1.size();
+        for(int i=0;i<size-1;i++){
+            stack2.push(stack1.pop());
+        }
+        int res = stack1.pop();
+        while(!stack2.isEmpty())
+            stack1.push(stack2.pop());
+        return res;
+    }
+    public int minNumberInRotateArray(int [] array) {
+        if(array==null || array.length==0) return 0;
+        int low = 0,high = array.length-1;
+        int mid = low;
+        while(array[low] >= array[high]){
+            if(low + 1== high) return array[high];
+            mid = (low + high)/2;
+            if(array[low] == array[mid] && array[mid] == array[high]){      //只能一个一个遍历
+                for(int i = low+1;i<=high;i++)
+                    if(array[i]<array[i-1]) return array[i];
+            }
+            if(array[mid] >= array[low]){        //链表左边有序，那么结果一定在链表的右边
+                low = mid;
+            }else if(array[mid] <= array[high]){        //链表右边有序，结果在链表的左边
+                high = mid;
+            }
+        }
+        return array[mid];
+    }
+    class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int x) { val = x; }
+    }
+    public TreeNode reConstructBinaryTree(int [] pre,int [] in) {
+        return helper(pre,0,pre.length-1,in,0,in.length-1);
+    }
+
+    private TreeNode helper(int[] pre,int preBegin,int preEnd,int[] in,int inBegin,int inEnd){
+        if(preBegin > preEnd) return null;
+        TreeNode root = new TreeNode(pre[preBegin]);
+        int index = inBegin;
+        for(int i=inBegin;i<=inEnd;i++){
+            if(pre[preBegin] == in[i]){
+                index = i;
+                break;
+            }
+        }
+        root.left = helper(pre,preBegin+1,preBegin+index-inBegin,in,inBegin,index-1);
+        root.right = helper(pre,preBegin+index-inBegin+1,preEnd,in,index+1,inEnd);
+        return root;
+    }
+
+
+    public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+        ArrayList<Integer> res = new ArrayList<>();
+        Stack<ListNode> stack = new Stack<>();
+        while(listNode!=null){
+            stack.add(listNode);
+            listNode = listNode.next;
+        }
+        while(!stack.isEmpty()){
+            res.add(stack.pop().val);
+        }
+        return res;
+    }
+
+    public String replaceSpace(StringBuffer str) {
+        int count  = 0;
+        for(int i = 0;i<str.length();i++){
+            if(str.charAt(i) == ' ')
+                count++;
+        }
+        char[] arr = new char[str.length() + count*2];
+        int indexNew = arr.length-1;
+        int indexOld = str.length()-1;
+        while(indexNew>=0 && indexOld>=0){
+            if(str.charAt(indexOld)==' '){
+                arr[indexNew--] = '0';
+                arr[indexNew--] = '2';
+                arr[indexNew--] = '%';
+            }else{
+                arr[indexNew--] = str.charAt(indexOld);
+            }
+            indexOld--;
+        }
+        return String.valueOf(arr);
     }
 
     public void xuanzepaixu(int[] arr){
@@ -187,6 +295,7 @@ public class Test {
             }
             i = pos;
         }
+
     }
 
 
@@ -387,6 +496,63 @@ public class Test {
                 k = next[k];
         }
         return next;
+    }
+
+    public int kmp(String s,String p){
+        int sLength = s.length();
+        int pLength = p.length();
+        int i=0,j=0;
+        int[] next = findNext(s);
+        while(j<sLength && i<pLength){
+            if(j==-1 || p.charAt(i)==s.charAt(j)){
+                i++;
+                j++;
+            }else
+                j = next[j];
+        }
+
+        if(j == sLength)
+            return i-j;
+        return -1;
+    }
+
+    public int sunday(String s,String p){
+        int sLength = s.length();
+        int pLength = p.length();
+        int i=0,j=0;
+        int loc = 0;    //匹配开始位置
+        while(i<pLength && j<sLength){
+            if(p.charAt(i) == s.charAt(j)){
+                i++;
+                j++;
+            }else if(i+(sLength-j) < pLength){     //如果对齐点后面还有点
+                int index = s.lastIndexOf(p.charAt(i+sLength-j)+"");
+                if(index == -1)
+                    i = i +sLength -j+1;
+                else
+                    i += sLength - index;
+                loc = i;
+                j=0;
+            }else
+                return -1;
+        }
+        if(j<sLength) return -1;
+        return loc;
+    }
+
+    public int JumpFloorII(int target) {
+        if(target<=0) return -1;
+        if(target==1) return 1;
+        return 2 * JumpFloorII(target -1);
+    }
+
+    public int NumberOf1(int n) {
+        int count = 0;
+        while(n>=0){
+            count++;
+            n = n&(n-1);
+        }
+        return count;
     }
 }
 
