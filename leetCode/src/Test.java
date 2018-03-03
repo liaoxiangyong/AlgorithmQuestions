@@ -47,12 +47,33 @@ public class Test {
 //        System.out.println("d1==d2:"+ (d1==d2));
 
 
-        int[][] array = {{2,4,6,8},{3,5,7,9},{65,432,3456,23245}};
+        int[][] array = {{1,2,3,4,5}};
         int[] adddd = {1};
-//        System.out.println(test.minNumberInRotateArray(adddd));
+        System.out.println(test.printMatrix(array));
 //        int[] a1 = {1,2,3,4,5,6,7};
 //        int[] a2 ={3,2,4,1,6,5,7};
-        System.out.println(test.Power(2,-3));
+        TreeNode node1 =new TreeNode(8);
+        TreeNode node2 =new TreeNode(8);
+        TreeNode node3 =new TreeNode(9);
+        TreeNode node4 =new TreeNode(3);
+        TreeNode node5 =new TreeNode(4);
+        TreeNode node6 =new TreeNode(7);
+        TreeNode node7 =new TreeNode(7);
+        node1.left = node2;
+        node1.right = node7;
+        node2.left = node4;
+        node2.right = node3;
+        node4.left = node5;
+        node4.right = node6;
+
+        TreeNode node21 =new TreeNode(8);
+        TreeNode node31 =new TreeNode(9);
+        TreeNode node41 =new TreeNode(2);
+        TreeNode node51 = new TreeNode(5);
+        node21.left = node31;
+        node21.right = node41;
+        node31.right = node51;
+//        test.Mirror(node1);
 
 
     }
@@ -93,12 +114,7 @@ public class Test {
         }
         return array[mid];
     }
-    class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-        TreeNode(int x) { val = x; }
-    }
+
     public TreeNode reConstructBinaryTree(int [] pre,int [] in) {
         return helper(pre,0,pre.length-1,in,0,in.length-1);
     }
@@ -568,5 +584,76 @@ public class Test {
             return 1/res;
         return res;
     }
+
+    public boolean HasSubtree(TreeNode root1,TreeNode root2) {
+        if(root1==null || root2==null) return false;
+        return bianli(root1,root2);
+    }
+
+    public boolean bianli(TreeNode root1,TreeNode root2){
+        if(root1 == null) return false;
+        TreeNode p = root1;
+        TreeNode q = root2;
+        boolean res;
+        if(p.val == q.val) {
+            res =  helper( p, q);
+            if(res) return true;
+        }
+        return bianli(root1.left, root2) || bianli(root1.right, root2);
+    }
+    private boolean helper(TreeNode root1,TreeNode root2){
+        if(root2==null && root1==null) return true;
+        if(root1 == null) return false;
+        if(root2==null) return true;
+        if(root1.val == root2.val) return helper(root1.left,root2.left) && helper(root1.right,root2.right);
+        return false;
+    }
+    public void Mirror(TreeNode root) {
+        if(root==null) return;
+        TreeNode node = root.left;
+        root.left = root.right;
+        root.right = node;
+        Mirror(root.left);
+        Mirror(root.right);
+    }
+
+
+    public ArrayList<Integer> printMatrix(int [][] matrix) {
+        ArrayList<Integer> res = new ArrayList<>();
+        int row = matrix.length;
+        if(row==0) return res;
+        int col = matrix[0].length;
+        int xLow = 0,yLow = 0,xHigh = row-1,yHigh = col-1;
+        for(int k=0;k<row*col;){
+            for (int j=yLow;j<=yHigh && xLow <= xHigh;j++){        //从左向右
+                res.add(matrix[xLow][j]);
+                k++;
+            }
+            xLow++;
+            for(int i = xLow;i<=xHigh && yLow <= yHigh ;i++){        //从上往下
+                res.add(matrix[i][yHigh]);
+                k++;
+            }
+            yHigh--;
+            for(int j = yHigh;j>=yLow && xLow <= xHigh;j--){    //从右往左
+                res.add(matrix[xHigh][j]);
+                k++;
+            }
+            xHigh--;
+            for(int i=xHigh;i>=xLow && yLow <= yHigh;i--){    //从下往上
+                res.add(matrix[i][yLow]);
+                k++;
+            }
+            yLow++;
+        }
+
+        return res;
+    }
+}
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(int x) { val = x; }
 }
 
