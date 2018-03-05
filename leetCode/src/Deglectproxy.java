@@ -28,5 +28,25 @@ public class Deglectproxy implements InvocationHandler {
     public static void main(String[] args) {
         Person person = (Person) new Deglectproxy().getInstance(new chengxuyuan());
         System.out.println(person.ds("曹尼玛"));
+
+        System.out.printf("%.2f\n",43434.54545545);
+    }
+
+    public int[] findNext(String s){
+        int[] next = new int[s.length()];
+        next[0] = -1;
+        int k=-1,j=0;
+        while(j<s.length()-1){
+            if(k==-1 && s.charAt(k)==s.charAt(j)){
+                j++;
+                k++;
+                if(s.charAt(k) != s.charAt(j)){
+                    next[j] = k;
+                }else
+                    next[j] = next[k];
+            }else
+                k = next[k];
+        }
+        return next;
     }
 }
